@@ -30,4 +30,13 @@ describe DockingStation do
     DockingStation::DEFAULT_CAPACITY.times { my_dock.dock(Bike.new) }
     expect { my_dock.dock(Bike.new) }.to raise_error('Docking station is full')
   end
+
+  it 'should accept a capacity instance variable when created' do
+    ds = DockingStation.new(30)
+    expect(ds.capacity).to eq(30)
+  end
+
+  it 'should have a capacity of 20 unless otherwise specified' do
+    expect(my_dock.capacity).to eq(20)
+  end
 end
