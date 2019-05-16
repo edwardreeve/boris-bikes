@@ -27,7 +27,7 @@ describe DockingStation do
   end
 
   it 'should not accept bike if at capacity' do
-    20.times { my_dock.dock(Bike.new) }
+    DockingStation::DEFAULT_CAPACITY.times { my_dock.dock(Bike.new) }
     expect { my_dock.dock(Bike.new) }.to raise_error('Docking station is full')
   end
 end
