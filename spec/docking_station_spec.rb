@@ -9,7 +9,6 @@ describe DockingStation do
     bike = Bike.new
     my_dock.dock(bike)
     returned_bike = my_dock.release_bike
-
     expect(returned_bike.working).to eq(true)
   end
 
@@ -39,5 +38,12 @@ describe DockingStation do
 
   it 'should have a capacity of 20 unless otherwise specified' do
     expect(my_dock.capacity).to eq(20)
+  end
+
+  it 'should not release broken bikes' do
+    broken_bike = Bike.new
+    broken_bike.broken
+    my_dock.dock(broken_bike)
+    expect { my_dock.release_bike }.to raise_error('Sorry, this bike is broken')
   end
 end
