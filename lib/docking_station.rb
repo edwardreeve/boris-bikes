@@ -14,13 +14,17 @@ class DockingStation
     raise 'No bikes available in dock' if empty?
     raise 'Sorry, this bike is broken' if bikes.last.working == false
 
-    @bikes.pop
+    bikes.pop
   end
 
   def dock(bike)
     raise 'Docking station is full' if full?
 
-    @bikes << bike
+    if bike.working
+      bikes << bike
+    else
+      bikes.unshift(bike)
+    end
   end
 
   private
