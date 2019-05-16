@@ -10,7 +10,7 @@ describe DockingStation do
     my_dock.dock(bike)
     returned_bike = my_dock.release_bike
 
-    expect(returned_bike).to be_working
+    expect(returned_bike.working).to eq(true)
   end
 
   it { should respond_to(:dock).with(1).argument }
@@ -18,8 +18,9 @@ describe DockingStation do
   it { should respond_to :bikes }
 
   it 'should store a bike that\'s been docked' do
-    my_dock.dock('pedalo')
-    expect(my_dock.bikes).to eq(['pedalo'])
+    bike = Bike.new
+    my_dock.dock(bike)
+    expect(my_dock.bikes).to eq([bike])
   end
 
   it 'should not release_bike if empty' do
