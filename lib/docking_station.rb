@@ -1,5 +1,6 @@
 require_relative 'bike.rb'
 
+# A docking station to store bikes in, woohoo!
 class DockingStation
   attr_reader :bikes
 
@@ -14,8 +15,14 @@ class DockingStation
   end
 
   def dock(bike)
-    raise 'Docking station is full' unless @bikes.count < 20
+    raise 'Docking station is full' if @bikes.full?
 
     @bikes << bike
+  end
+
+  private
+
+  def full?
+    @bikes.count >= 20
   end
 end
