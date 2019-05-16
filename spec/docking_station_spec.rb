@@ -1,14 +1,15 @@
 require 'docking_station.rb'
 
 describe DockingStation do
-  let(:my_dock) { DockingStation.new }
+  let(:dock) { DockingStation.new }
+  let(:bike) { double :bike }
 
   it { should respond_to :release_bike }
 
   it 'should release a working bike' do
-    bike = double(:bike)
-    my_dock.dock(bike)
-    returned_bike = my_dock.release_bike
+    allow(bike).to receive(:working).and_return(true)
+    dock.dock(bike)
+    returned_bike = dock.release_bike
     expect(returned_bike.working).to eq(true)
   end
 
@@ -17,18 +18,17 @@ describe DockingStation do
   it { should respond_to :bikes }
 
   it 'should store a bike that\'s been docked' do
-    bike = double(:bike)
-    my_dock.dock(bike)
-    expect(my_dock.bikes).to eq([bike])
+    dock.dock(bike)
+    expect(dock.bikes).to eq([bike])
   end
 
   it 'should not release_bike if empty' do
-    expect { my_dock.release_bike }.to raise_error('No bikes available in dock')
+    expect { dock.release_bike }.to raise_error('No bikes available in dock')
   end
 
   it 'should not accept bike if at capacity' do
-    DockingStation::DEFAULT_CAPACITY.times { my_dock.dock(double(:bike)) }
-    expect { my_dock.dock(double(:bike)) }.to raise_error('Docking station is full')
+    DockingStation::DEFAULT_CAPACITY.times { dock.dock(bike) }
+    expect { dock.dock(bike) }.to raise_error('Docking station is full')
   end
 
   it 'should accept a capacity instance variable when created' do
@@ -37,13 +37,14 @@ describe DockingStation do
   end
 
   it 'should have a capacity of 20 unless otherwise specified' do
-    expect(my_dock.capacity).to eq(20)
+    expect(dock.capacity).to eq(20)
   end
 
   it 'should not release broken bikes' do
-    broken_bike = double(:bike)
-    broken_bike.broken
-    my_dock.dock(broken_bike)
-    expect { my_dock.release_bike }.to raise_error('Sorry, this bike is broken')
+    allow(bike).to receive(:broken)
+    allow(bike).to receive(:working).and_return(false)
+    bike.broken
+    dock.dock(bike)
+    expect { dock.release_bike }.to raise_error('Sorry, this bike is broken')
   end
 end
