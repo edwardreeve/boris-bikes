@@ -1,12 +1,8 @@
 # A bike. C'mon now, we all know what bikes are
 class Bike
-  attr_reader :working
+  attr_accessor :broken
 
   def initialize
-    @working = true
-  end
-
-  def broken
-    @working = false
+    @broken = false
   end
 end

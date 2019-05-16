@@ -12,19 +12,24 @@ class DockingStation
 
   def release_bike
     raise 'No bikes available in dock' if empty?
-    raise 'Sorry, this bike is broken' if bikes.last.working == false
+    raise 'Sorry, this bike is broken' if bikes.last.broken == true
 
     bikes.pop
   end
 
-  def dock(bike)
+  def dock(bike, broken = false)
     raise 'Docking station is full' if full?
-
-    if bike.working
-      bikes << bike
-    else
+    bike.broken = broken
+    if bike.broken
       bikes.unshift(bike)
+    else
+      bikes << bike
     end
+  end
+
+  def release_broken
+    broken = []
+    broken << bikes.delete_if { |bike| bike.broken == false }
   end
 
   private
