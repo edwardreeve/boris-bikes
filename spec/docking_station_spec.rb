@@ -64,10 +64,14 @@ describe DockingStation do
   it { should respond_to :release_broken}
 
   it 'should return all broken bikes to release_broken' do
-    allow(bike).to receive(:broken=)
-    allow(bike).to receive(:broken).and_return(true)
-    5.times { dock.dock(bike, true) }
-    dock.dock(bike)
-    expect(dock.release_broken.length).to eq(5)
+    # allow(bike).to receive(:broken=).and_return(true)
+    # allow(bike).to receive(:broken).and_return(true)
+    test_dock = DockingStation.new
+    5.times { test_dock.dock(Bike.new, true) }
+    test_dock.dock(Bike.new)
+    broked = test_dock.release_broken
+    print '&&&&&&'
+    print broked
+    expect(broked.length).to eq(5)
   end
 end

@@ -28,8 +28,17 @@ class DockingStation
   end
 
   def release_broken
+    #  puts bikes
+    # puts '^^^^^^^^'
+    # puts broken
     broken = []
-    broken << bikes.delete_if { |bike| bike.broken == false }
+    broken = bikes.take_while { |bike| bike.broken == true }
+    bikes.reject! { |bike| bike.broken == true }
+    # print broken
+    # print bikes
+    # puts bikes
+    # puts '*******'
+    # puts broken
   end
 
   private
